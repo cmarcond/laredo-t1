@@ -1,0 +1,484 @@
+---
+header-includes: \usepackage{placeins}
+output:
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r child = 'titlepage.Rmd'}
+```
+
+\newpage
+
+# Introdução
+Para esse trabalho foi escolhido o Dataset chamado XZCALL. Esse Dataset está 
+presente no arquivo "DADOS CURSO modelos preditivos 2017 03 03.xlsx". Dessa 
+planilha foi extraída por copy/paste somente a aba XZCALL em um arquivo csv
+separado. Também foram substituídos os acentos das palavras do Dataset 
+para uma versão "sem acentos". O resultado é o arquivo **"xzcall.csv"**.
+
+Conforme solicitação do professor, omitimos neste relatório, produzido usando *R Markdown*, 
+todas as referencias as chamadas em código do R para os gráficos. Portanto, somente mostraremos 
+os resultados dessas execuções. Entretanto, os modelos e alguns códigos especiais (ex. imputação por k-NN) 
+podem apresentar diferenças de um gabarito predefinido, portanto, iremos apresentar os comandos quando conveniente.
+O restante do código Rmd pode ser acessado no github - https://github.com/cmarcond/laredo-t1.git
+
+# Análise e Limpeza da Variáveis do Dataset
+Conforme pode ser verificado a seguir,o Dataset tem 3368 observações
+dispostas em 9 variáveis. A descrição completa do Dataset está no livro 
+"LIVRO REGRESSÃO LOGISTICA 2016 09 19.pdf" na página 69. O status é a variável
+resposta que a empresa gostaria de predizer, corresponde aos "bons" funcionários
+que permaneceram na empresa nos 12 meses completos, e os maus ficaram menos tempo.
+
+```{r}
+library(ggthemes)
+library(ggplot2)
+theme_set(theme_tufte())
+
+set.seed(1976)
+xzcall = read.csv("xzcall.csv", sep=",", stringsAsFactors = FALSE)
+
+#fixando esse arquivo no R para facilitar a digitação de comandos
+attach(xzcall)
+
+str(xzcall)
+
+individuos <- nrow(xzcall)
+```
+
+## Analisar as diferentes variáveis previsoras (corrigir outliers e missing values)
+
+Iniciamos verificando a incidencia de outliers com o R. A conclusão é que não encontramos nenhum campo em branco no Dataset, como mostra o resultado abaixo. 
+```{r echo=TRUE}
+table(is.na(xzcall))
+```
+
+### Missing Values e Imputação por k-NN
+
+Entretanto, estudando os níveis das variáveis categóricas, descobrimos que todas elas tem níveis que fazem sentido, exceto TIPORESID. A variável TIPORESID possui alguns empregados com o valor "3" nesse campo, ao invés de residencia "própria" ou "outros". O valor "3" pode ter sido um erro de digitação, ou poderia estar representando um valor vazio dependendo do dicionário de dados. Como não temos a definição, vamos assumir que esse valor seja equivalente a "missing value". Usaremos o método de imputação automática por k-NN (com k = 10, valor default, embora testamos com outros k, sem diferença). A tabela TIPORESID antes da imputação possui 30 valores "3", que serão substituídos por NAs. Esses dados representam `r round((30/individuos)*100,2)` \% do total de individuos.
+```{r echo=TRUE}
+table(TIPORESID)
+```
+```{r eval=FALSE}
+library(gmodels)
+CrossTable(PRIM_EMP, TIPORESID, prop.c = F, prop.t = F, prop.chisq = F)
+CrossTable(IDADE, TIPORESID, prop.c = F, prop.t = F, prop.chisq = F)
+```
+
+```{r}
+TIPORESID[TIPORESID == "3"] <- NA
+xzcall$TIPORESID <- as.factor(TIPORESID)
+table(TIPORESID, useNA = "ifany")
+#table(is.na(xzcall))
+```
+Usaremos o pacote **VIM - Visualization and Imputation of Missing Values**, que possui a função **kNN** que busca no Dataset por campos NA para substituição por valores de comportamento semelhante com os k-vizinhos mais próximos.
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+library(VIM)
+xzcall <- kNN(xzcall, variable = c("TIPORESID"), k = 10)
+table(xzcall$TIPORESID, useNA = "ifany")
+```
+
+O Dataset resultante não possui mais nenhum NA, e os valores imputados foram todos para o TIPORESID = "propria", conforme mostra a tabela abaixo. De fato, isso é coerente, com testes realizados com essa variável que indicam uma homogeneidade, por exemplo, a maioria dos individuos marcados com "3" tem idade > 45 e estão no seu primeiro emprego, e a grande maioria dos empregados tem o tipo de residencia, antes da imputação é do tipo "propria" com 92.4\%.
+
+### Detecção de Outliers e Proposta de Transformação
+
+```{r fig.align='center', fig.height = 3, fig.width = 7}
+par(mfrow=c(1,3))
+hist(TESTE, col="lightyellow1", prob=T, border ="blue", main ="Histograma de TESTE")
+z=density(TESTE, na.rm = T)
+lines(z, col="red", lwd=3)
+boxplot(TESTE, main ="Boxplot de TESTE")
+teste2 <- sqrt(max(TESTE)-TESTE)
+boxplot(teste2, main ="Boxplot após transformação")
+xzcall$TESTESQRT <- teste2
+```
+
+A única variável quantitativa é TESTE, as outras são variáveis categóricas. Portanto, vamos começar analisando os resultados de TESTE. O gráfico de histograma mostra que a distribuição dos resultados de teste, compreende no teste de admissão, mínimo de `r min(TESTE)` e no máximo `r max(TESTE)`. A distribuição e o boxplot são levemente skewed negativamente (os gráficos à esquerda), desse modo foi aplicado uma transformação MAX(X) - SQRT(X), resultando em 5 outliers de 3368 pontos.
+
+## Analisando proporções das variáveis individuais
+
+Analisando as proporções individuais das variáveis, por exemplo, é possível verificar se a variável resposta está bem representada no Dataset, ou se será necessário fazer técnicas para tratar desequilibrio entre valores da variável resposta, como ROSE ou outras. Desse modo, começando pela variável resposta (STATUS), verificamos equilibrio, e portanto não será necessário ajustes. 
+
+A seguir, nesta tabela abaixo, analisaremos as outras variáveis (todas convertidas em \%). 
+```{r fig.align='center', fig.height = 3, fig.width = 3}
+barplot(prop.table(table(STATUS))*100, main="STATUS")
+```
+
+```{r fig.align='center', fig.height = 3, fig.width = 10}
+par(mfrow=c(1,3))
+barplot(prop.table(table(IDADE))*100, main="IDADE")
+barplot(prop.table(table(ECIV))*100, main="ECIV")
+barplot(prop.table(table(DIST_EMP))*100, main="DIST_EMP")
+```
+
+
+```{r fig.align='center', fig.height = 3, fig.width = 10}
+par(mfrow=c(1,3))
+barplot(prop.table(table(TIPORESID))*100, main="TIPORESID")
+barplot(prop.table(table(PRIM_EMP))*100, main="PRIM_EMP")
+barplot(prop.table(table(EDUC))*100, main="EDUC")
+```
+
+## Criação de Variáveis Dummy
+A criação de dummy auxilia a melhorar a expressividade do modelo. Uma das variáveis que pode permitir dummies é a variável EDUC, que tem os valores "secundario" e "superior". Na verdade, note que o valor "superior" já pressupõe que a pessoa tenha se formado no "secundário". Portanto, podemos criar 2 variáveis DUMMY (BSEC e BSUP). Onde as seguintes clausulas lógicas são possíveis: "se secundário então bsec = 1 e bsup = 0", a outra opção é "se superior então bsec = 1 e bsup = 1". Realizamos esse procedimento e colocamos as novas variáveis no Dataset. A variável ECIV também tem uma estrutura semelhantes, pois quem é viúvo ou separado, já foi casado, entretanto, o nível "outros" traz mais complexidade para uma transformação, pois não está claro se "outros" já foi casado, no passado, e agora está "amasiado". 
+
+## Estrutura final do Dataset após procedimentos de limpeza
+
+Para finalizar a preparação do Dataset, além dos campos novos de TESTESQRT, TIPORESID imputado, BSEC e BSUP também excluímos as variáveis que não precisamos, como FUNCIONARIO, EDUC e mesmo TESTE. Para TESTE, note que, é possível transformar de volta TESTESQRT para TESTE apenas aplicando a inversa da transformação $max - x^2$, exemplo $4.24^2 = 17.9776; 100-17.9776=82$. Dessa forma, a estrutura final do Dataset para treinamento e testes é esse: 
+
+```{r warning=FALSE}
+BSEC = ifelse(xzcall$EDUC=="secundario", 1, 0)
+if(xzcall$EDUC=="superior") BSEC <- 1
+BSUP = ifelse(xzcall$EDUC=="superior", 1, 0)
+xzcall$BSEC <- BSEC
+xzcall$BSUP <- BSUP
+xzcall$TIPORESID_imp <- NULL
+OLDEDUC <- xzcall$EDUC
+xzcall$EDUC <- NULL
+xzcall$TESTE <- NULL
+xzcall$FUNCIONARIO <- NULL
+xzcall$STATUS <- as.factor(xzcall$STATUS) 
+xzcall$IDADE <- as.factor(xzcall$IDADE)
+xzcall$ECIV <- as.factor(xzcall$ECIV)
+xzcall$DIST_EMP <- as.factor(xzcall$DIST_EMP)
+xzcall$PRIM_EMP <- as.factor(xzcall$PRIM_EMP)
+xzcall$BSEC <- as.factor(xzcall$BSEC)
+xzcall$BSUP <- as.factor(xzcall$BSUP)
+str(xzcall)
+```
+
+# Divisão do Dataset em 2 grupos (learn e test)
+
+Realizamos a parte A) do trabalho após a fase de limpeza e criação de dummies porque o resultado de flags seria diferente antes e depois da limpeza. Portanto, dividindo o arquivo em 2 grupos, learn com 60\% e test com 40\% utilizando a função createdatapartition
+do pacote "caret". Para fins de validação, a soma dos flags gerados está listado abaixo, bem como verificamos a proporção de STATUS "bom" e "mau" em cada subconjunto (learn e test) permanece similar ao original (Seção 2.2). 
+
+```{r warning=FALSE, message=FALSE}
+library(caret)
+flag = createDataPartition(xzcall$STATUS, p=0.6, list = FALSE)
+xzcall.learn=xzcall[flag,]
+xzcall.test=xzcall[-flag,]
+```
+
+```{r echo=TRUE}
+sum(flag)
+```
+
+```{r fig.align='center', fig.height = 3, fig.width = 6}
+par(mfrow=c(1,2))
+barplot(prop.table( table(xzcall.learn$STATUS)), main="LEARN")
+barplot(prop.table( table(xzcall.test$STATUS)), main="TEST")
+```
+
+
+# Poder discriminador das variáveis em relação ao alvo 
+
+## TESTE - Previsora quantitativa
+
+A única variável quantitativa é a nota do TESTE. Nessa seção, iremos comparar os valores da nota do TESTE versus o STATUS ser "bom" ou "mau". Algo interessante que notamos é que a variável TESTE, SEM a transformação pela raiz quadrada, tem o seu boxplot ligeiramente tendendo a associar melhores notas no teste à bons funcionários. 
+
+```{r warning=FALSE, fig.align='center', fig.height = 2, fig.width = 6}
+library(gridExtra)
+plot1 <- ggplot(xzcall, aes(x=STATUS, y=TESTE, col=STATUS)) + 
+  geom_boxplot() + guides(colour=FALSE)
+plot2 <- ggplot(xzcall, aes(x=STATUS, y=TESTE, col=STATUS)) + 
+  geom_jitter(position=position_jitter(0.3), alpha = 0.2) + guides(colour=FALSE)
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+Entretanto, ao aplicar a transformação pela raiz quadrada (TESTESQRT), o boxplot fica o contrário, parece ligeramente tender a associar melhores notas à maus funcionários. Entretanto, ambos os boxplots são estatisticamente equivalentes, a mediana de cada um está dentro da área do IQR (Interquartile Range). Portanto, provavelmente, esta não é uma das primeiras variáveis mais importantes na predição.
+
+```{r fig.align='center', fig.height = 2, fig.width = 6}
+require(gridExtra)
+plot1 <- ggplot(xzcall, aes(x=STATUS, y=TESTESQRT, col=STATUS)) + 
+  geom_boxplot() + guides(colour=FALSE)
+plot2 <- ggplot(xzcall, aes(x=STATUS, y=TESTESQRT, col=STATUS)) + 
+  geom_jitter(position=position_jitter(0.3), alpha = 0.2) + guides(colour=FALSE)
+grid.arrange(plot1, plot2, ncol=2)
+```
+
+## DEMAIS VARIAVEIS - Previsoras qualitativas
+
+Para as demais variáveis qualitativas iremos calcular o lambda de Goodman & Kruskal, e iremos comparar o poder preditivo de cada variável. Apresentaremos os resultados uma página para cada variável previsora. Lembrando que o parametro lambda representa perfeita associação quando o valor se aproxima de 1, e quando as variáveis qualitativa e alvo são independentes (ou seja, nenhuma relação entre elas) o valor se aproxima de 0. Além da interpretação visual dos dados, pela tabela de contingencia, também utilizamos uma implementação em R para extrair gamma de Goodman-Kruskal.
+
+```{r}
+# Calculate Goodman-Kruskal gamma
+# x = table
+calc.gamma <- function(x)
+{
+  x <- matrix(as.numeric(x), dim(x))
+  c <- concordant(x)
+  d <- discordant(x)
+  gamma <- (c - d) / (c + d)
+  gamma
+}
+
+# Calculate CONcordant Pairs in a table
+# cycle through x[r, c] and multiply by
+# sum(x elements below and to the right of x[r, c])
+# x = table
+concordant <- function(x)
+{
+  x <- matrix(as.numeric(x), dim(x))
+  
+  # get sum(matrix values > r AND > c)
+  # for each matrix[r, c]
+  mat.lr <- function(r, c)
+  { 
+    lr <- x[(r.x > r) & (c.x > c)]
+    sum(lr)
+  }
+
+  # get row and column index for each
+  # matrix element
+  r.x <- row(x)
+  c.x <- col(x)
+
+  # return the sum of each matrix[r, c] * sums
+  # using mapply to sequence thru each matrix[r, c]
+  sum(x * mapply(mat.lr, r = r.x, c = c.x))
+}
+
+# Calculate DIScordant Pairs in a table
+# cycle through x[r, c] and multiply by
+# sum(x elements below and to the left of x[r, c])
+# x = table
+discordant <- function(x)
+{
+  x <- matrix(as.numeric(x), dim(x))
+  
+  # get sum(matrix values > r AND < c)
+  # for each matrix[r, c]
+  mat.ll <- function(r, c)
+  { 
+    ll <- x[(r.x > r) & (c.x < c)]
+    sum(ll)
+  }
+
+  # get row and column index for each
+  # matrix element
+  r.x <- row(x)
+  c.x <- col(x)
+
+  # return the sum of each matrix[r, c] * sums
+  # using mapply to sequence thru each matrix[r, c]
+  sum(x * mapply(mat.ll, r = r.x, c = c.x))
+}
+library(gmodels)
+```
+
+\newpage
+
+### Variável IDADE vs STATUS
+```{r}
+x <- table(xzcall$IDADE,xzcall$STATUS)
+a <- round(abs(calc.gamma(x)),2)
+```
+
+Criamos a tabela de contingencia da variável IDADE em relação a variável alvo STATUS. É possível visualmente ver alguma diferença, especialmente quando a idade é maior que 45, quando a proporção (em relação a todos os pontos) de "mau" é o dobro de "bom", nessa faixa (29\% para "mau" versus 14\% para "bom"). O valor de gamma de Goodman-Kruskal é $\lambda =$ `r a`. Ou seja, **não** tem uma boa relação.
+```{r}
+# Comparativo entre IDADE e STATUS
+CrossTable(xzcall$IDADE,xzcall$STATUS, digits = 2, prop.t = TRUE, prop.r = FALSE, prop.c = FALSE, prop.chisq = F)
+```
+\newpage
+
+### Variável ECIV e STATUS
+```{r}
+x <- table(xzcall$ECIV,xzcall$STATUS)
+a <- round(abs(calc.gamma(x)),2)
+```
+
+Criamos a tabela de contingencia da variável ECIV em relação a variável alvo STATUS. É possível visualmente ver alguma diferença, especialmente quando o funcionário é casado, quando a proporção (em relação a todos os pontos) de "mau" é um pouco maior que "bom", nessa faixa (36\% para "mau" versus 22\% para "bom"). O valor de gamma de Goodman-Kruskal é $\lambda =$ `r a`. Ou seja, **não** tem uma boa relação.
+```{r}
+# Comparativo entre ECIV e STATUS
+CrossTable(xzcall$ECIV,xzcall$STATUS, digits = 2, prop.t = TRUE, prop.r = FALSE, prop.c = FALSE, prop.chisq = F)
+```
+\newpage
+
+### Variável DIST_EMP e STATUS
+```{r}
+x <- table(xzcall$DIST_EMP,xzcall$STATUS)
+a <- round(abs(calc.gamma(x)),2)
+```
+
+Criamos a tabela de contingencia da variável DIST_EMP em relação a variável alvo STATUS. É possível visualmente ver alguma diferença, especialmente quando o funcionário mora próximo do trabalho, quando a proporção (em relação a todos os pontos) de "mau" é bem maior que "bom", nessa faixa (28\% para "mau" versus 16\% para "bom"). O valor de gamma de Goodman-Kruskal é $\lambda =$ `r a`. Ou seja, **não** tem uma boa relação.
+```{r}
+# Comparativo entre DIST_EMP e STATUS
+CrossTable(xzcall$DIST_EMP,xzcall$STATUS, digits = 2, prop.t = TRUE, prop.r = FALSE, prop.c = FALSE, prop.chisq = F)
+```
+\newpage
+
+### Variável TIPO_RESID e STATUS
+```{r}
+x <- table(xzcall$TIPORESID,xzcall$STATUS)
+a <- round(abs(calc.gamma(x)),2)
+```
+
+Criamos a tabela de contingencia da variável TIPORESID em relação a variável alvo STATUS. É possível visualmente ver pouquissima diferença. A principal diferença é 41\% e 55\% (todos os pontos) - residencia própria, que é equivalente a razão dessas variáveis no Dataset. O valor de gamma de Goodman-Kruskal é $\lambda =$ `r a`. Ou seja, praticamente 0, indicando independencia. Basta notar que TIPORESID no Dataset, mais de 90\% dos pontos são residencia própria.
+```{r}
+# Comparativo entre TIPORESID e STATUS
+CrossTable(xzcall$TIPORESID,xzcall$STATUS, digits = 2, prop.t = TRUE, prop.r = FALSE, prop.c = FALSE, prop.chisq = F)
+```
+\newpage
+
+### Variável PRIM_EMP e STATUS
+```{r}
+x <- table(xzcall$PRIM_EMP,xzcall$STATUS)
+a <- round(abs(calc.gamma(x)),2)
+```
+
+Criamos a tabela de contingencia da variável PRIM_EMP em relação a variável alvo STATUS. É possível visualmente ver alguma diferença, especialmente quando o funcionário responde SIM, que é seu primeiro emprego, proporção (em relação a todos os pontos) de "mau" é bem maior que "bom" nessa faixa, quase 2.5 vezes (42\% para "mau" versus 17\% para "bom"). O valor de gamma de Goodman-Kruskal é $\lambda =$ `r a`. Ou seja, **existe** uma BOA relação entre as variáveis PRIM_EMP e STATUS. Isso faz sentido porque em um trabalho de call-center, que é a maioria de primeiro emprego de muita gente, claramente, não é a opção ideal, e portanto, existe a tendencia em abandonar o emprego para outro melhor no futuro. 
+```{r}
+# Comparativo entre PRIM_EMP e STATUS
+CrossTable(xzcall$PRIM_EMP,xzcall$STATUS, digits = 2, prop.t = TRUE, prop.r = FALSE, prop.c = FALSE, prop.chisq = F)
+```
+\newpage
+
+### Variável EDUC e STATUS
+```{r}
+x <- table(OLDEDUC,xzcall$STATUS)
+a <- round(abs(calc.gamma(x)),2)
+```
+
+Criamos a tabela de contingencia da variável EDUC em relação a variável alvo STATUS. É possível visualmente ver alguma diferença, especialmente quando o funcionário responde que possui diploma superior. A chance de ser um "mau" funcionário é 3.75 vezes proporcionalmente maior na faixa de ensino superior (com 30\% para "mau" e 8\% para "bom"). O valor de gamma de Goodman-Kruskal é $\lambda =$ `r a`. Ou seja, valor próximo de 1, e portanto **existe** uma BOA relação.
+```{r}
+# Comparativo entre DIST_EMP e STATUS
+CrossTable(OLDEDUC,xzcall$STATUS, digits = 2, prop.t = TRUE, prop.r = FALSE, prop.c = FALSE, prop.chisq = F)
+```
+\newpage
+
+## Construcao da Árvore
+A próxima etapa é a construção do modelo de Árvore de Decisão. Para esse modelo, usaremos a partição realizada anteriormente, e os dados de Learn serão usados para treinar o modelo, e os dados de Test serão usados para investigar o desempenho do modelo. Foi utilizado o algoritmo CART "Recursive partitioning" (rpart) e utilizadas todas as variáveis. 
+
+Nas primeiras execuções, notamos que a árvore pré-poda e a árvore pós-poda eram IGUAIS. Da maneira que os dados estão dispostos, nós notamos que o cálculo do risco e o ganho para o particionamento estava sendo afetado pelo parametro CP (complexity parameter) default de 0.01. 
+
+Aparentemente, o parametro CP limita o crescimento da árvore, porque os limiares dos valores de ganho que geram "splits" são de menor granularidade do que o CP = 0.01 permite. Fizemos alguns testes, e geramos novamente a árvore alterando o parametro de CP = 0.003 ao invés. 
+
+O resultado é uma árvore mais profunda e densa, como mostrado abaixo. Mostraremos o código para evitar confusões.
+
+```{r}
+library(rpart)
+library(rpart.plot)
+```
+
+
+```{r echo=TRUE}
+ad1=rpart(data=xzcall.learn, STATUS ~ IDADE + ECIV 
+          + DIST_EMP + TIPORESID + PRIM_EMP + TESTESQRT + BSEC + BSUP, 
+          method = "class", control = rpart.control(cp = 0.003))
+```
+
+## Desenhando a Árvore de Decisão Pré-Poda
+```{r warning=FALSE, message=FALSE, fig.align='center', fig.height = 5, fig.width = 6}
+library(rattle)
+library(RColorBrewer)
+fancyRpartPlot(ad1, sub="")
+```
+
+Notamos nessa árvore, que se for o primeiro emprego e se NÃO tiver curso superior, uma boa chance de ser "bom" funcionário. Essa árvore possui profundidade de 8 níveis e claramente esta super especializada (overfit).
+
+## Poda da árvore
+
+Em seguida, fizemos o print do cptable que orienta a poda. Note que os intervalos entre CP começam a saltar de 0.003 em 0.003. O ponto de poda é baseado na metodologia do professor, onde ao invés de simplesmente usar o ponto de menor xerror que seria 0.67184, faz-se o ponto intermediário entre o CP anterior e esse do menor xerror. O procedimento foi automatizado com o código abaixo.
+
+```{r echo=TRUE}
+printcp(ad1)
+
+#
+# indicando que o valor do CP correspondente é um valor de CP 
+# entre 0.0035800 e 0.0071599, portanto o meio desses é 0.005369928
+index <- which.min(ad1$cptable[ , "xerror"])
+tree_min <- (ad1$cptable[index - 1, "CP"] + ad1$cptable[index, "CP"])/2
+tree_min
+ad2=prune(ad1, cp=tree_min)
+```
+
+## Desenhando a Árvore de Decisão Pós-Poda
+```{r fig.align='center', fig.height = 3, fig.width = 3}
+library(rattle)
+library(RColorBrewer)
+fancyRpartPlot(ad2, sub="")
+```
+
+## Print da Árvore após a poda
+Para uma correta interpretação é preciso lembrar que TESTESQRT é a variável transformada, basta alterar o valor por $100-X^2$. Portanto, 4.6 é equivalente a uma nota de 78.84.
+```{r}
+print(ad2)
+```
+\newpage
+
+# Análise de Desempenho do Modelo Árvore de Decisão
+
+## Importância das variáveis no processo de construção da árvore
+
+Analisando a importancia das variáveis é possível perceber que o modelo parece coerente com a nossa análise prévia das variáveis previsoras. Por exemplo, PRIMEIRO EMPREGO, CURSO SUPERIOR e, eventualmente, o valor da nota do TESTE são as variáveis com maior importancia no modelo.
+```{r}
+round(ad2$variable.importance, 3)
+```
+
+## Estimação das probabilidades e classificação com corte default (0.5)
+```{r echo=TRUE}
+prob2= predict(ad2, newdata = xzcall.test, type = "prob")
+clas2= predict(ad2, newdata = xzcall.test, type = "class")
+```
+
+## Matriz de Classificação colocando a classificação REAL na linha, e a prevista na coluna
+```{r}
+CrossTable(xzcall.test$STATUS, clas2, digits = 2, prop.t = TRUE, prop.r = FALSE, prop.c = FALSE, prop.chisq = F)
+```
+
+## Acurácia do Modelo
+```{r}
+confusionmatrix <- table(xzcall.test$STATUS, clas2)
+acc <- round(sum(diag(confusionmatrix)) / nrow(xzcall.test), 2)*100
+```
+A acurácia do modelo calculada pela diagonal da matriz de confusão dividido pelo número de pontos de teste foi igual a `r acc`\%.
+
+## Indicadores do poder discriminador da árvore
+Outros indicadores foram calculados para a árvore pós-poda.
+```{r}
+library(hmeasure)
+hm2 = HMeasure(xzcall.test$STATUS, prob2[,2])
+round(hm2$metrics,3)
+```
+
+## Curva ROC Pós-Poda
+Outros indicadores, como curva ROC, foram calculados para a árvore pós-poda.
+```{r warning=FALSE, message=FALSE, fig.align='center', fig.height = 3, fig.width = 3}
+library(pROC)
+prob1= predict(ad1, newdata = xzcall.test, type = "prob")
+ROC_model <- roc(xzcall.test$STATUS, prob2[,2])
+# ROC_model2 <- roc(xzcall.test$STATUS, prob1[,2])
+plot(ROC_model)
+# lines(ROC_model2, col="blue")
+auc(ROC_model)
+```
+
+\newpage 
+
+## Comparação da proporção da variável TESTE do Dataset com as variáveis TESTE prevista pelo modelo
+```{r warning=FALSE, message=FALSE, echo=TRUE}
+library(arules)
+knota = discretize(xzcall.test$TESTE, method = 'frequency', categories = 10)
+table(knota, xzcall.test$STATUS)
+table(knota, clas2)
+```
+
+## Comparação da proporção das probabilidades que acertam o valor de bom, mal pelo modelo
+```{r warning=FALSE, message=FALSE, echo=TRUE}
+kprob = discretize(prob2[ ,1], method = 'frequency', categories = 4)
+table(kprob, xzcall.test$STATUS)
+table(kprob, clas2)
+```
+
+\newpage 
+
+# Sumário
+
+Tomamos a liberdade de realizar todos os comentários, mais importantes, ao longo do trabalho. Portanto, nosso sumário final é bem enxuto. Em resumo, o modelo apresentou uma acurácia abaixo da expectativa de aprox. 71\%. A manipulação de variáveis alterou pouco desse resultado. Um possível estudo futuro seria usar outros modelos como regressão logistica e florestas aleatórias. O estudo de cada uma das variáveis mostrou uma forma interessante de entender e explicar os resultados do modelo. Testamos pouco a parte de parametrização, como minimo de folhas e número mínimo para "split", e isso poderia ser melhorado em futuros trabalhos.

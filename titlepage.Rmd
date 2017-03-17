@@ -1,0 +1,38 @@
+---
+output: pdf_document
+---
+
+\begin{centering}
+
+\vspace{3 cm}
+
+\Huge
+
+{\bf Modelagem Preditiva}
+
+\vspace{3 cm}
+
+\Large
+Cesar Augusto Cavalheiro Marcondes
+
+Matricula: 079149/2016
+
+Turma: MSP016AP-ZEBABD- T2
+
+Ano de Nascimento: 1976
+
+\vspace{3 cm}
+
+
+\normalsize
+Trabalho Individual do Curso Modelagem Preditiva (Prof. Abraham Laredo Sicsú)
+
+\vspace{3 cm}
+
+\normalsize
+MBA Executivo em Economia e Gestão: Business Analytics e Big Data
+
+\normalsize
+FGV Management São Paulo
+
+\end{centering}
