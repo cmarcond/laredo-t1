@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 SENDER_EMAIL = os.environ["SENDER_EMAIL"]
 RECEIVER_EMAIL = os.environ["RECEIVER_EMAIL"]
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
-CLIENT_SECRET_FILE = 'client_secret.json'
+CLIENT_SECRET_FILE = 'google_credentials.json'
 
 def get_credentials():
     creds = None
@@ -17,17 +17,6 @@ def get_credentials():
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
-
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-            creds = flow.run_local_server(port=0)
-
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
-
     return creds
 
 def send_email(to, subject, body):
