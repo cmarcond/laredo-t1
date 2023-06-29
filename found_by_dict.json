@@ -634,5 +634,9 @@
     "13": {
         "name": "ZAP Scan",
         "type": "DAST"
+    },
+    "149": {
+        "name": "Inspect AI",
+        "type": "SAST"
     }
 }
