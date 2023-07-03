@@ -637,6 +637,6 @@
     },
     "149": {
         "name": "Inspect AI",
-        "type": "SAST"
+        "type": "Code SAST"
     }
 }
