@@ -638,5 +638,9 @@
     "149": {
         "name": "Inspect AI",
         "type": "Code SAST"
+    },    
+    "156": {
+        "name": "CodeFixAI Scan",
+        "type": "Code SAST"
     }
 }
