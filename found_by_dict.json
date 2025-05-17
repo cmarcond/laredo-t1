@@ -1,646 +1,638 @@
 {
-    "120": {
-        "name": "Acunetix360 Scan",
-        "type": "DAST"
-    },
-    "49": {
-        "name": "Acunetix Scan",
-        "type": "DAST"
-    },
-    "47": {
-        "name": "Anchore Engine Scan",
-        "type": "SCA"
-    },
-    "124": {
-        "name": "Anchore Enterprise Policy Check",
-        "type": "SCA"
-    },
-    "128": {
-        "name": "Anchore Grype",
-        "type": "SCA"
-    },
-    "1": {
-        "name": "API Test",
-        "type": "DAST"
-    },
-    "40": {
-        "name": "AppSpider Scan",
-        "type": "DAST"
-    },
-    "118": {
-        "name": "Aqua Scan",
-        "type": "IaC SAST"
-    },
-    "81": {
-        "name": "Arachni Scan",
-        "type": "DAST"
-    },
-    "143": {
-        "name": "AuditJS Scan",
-        "type": "SCA"
-    },
-    "53": {
-        "name": "AWS Prowler Scan",
-        "type": "IaC SAST"
-    },
-    "69": {
-        "name": "AWS Scout2 Scan",
-        "type": "IaC SAST"
-    },
-    "52": {
-        "name": "AWS Security Hub Scan",
-        "type": "IaC SAST"
-    },
-    "138": {
-        "name": "Azure Security Center Recommendations Scan",
-        "type": "IaC SAST"
-    },
-    "136": {
-        "name": "Bandit Scan",
-        "type": "Code SAST"
-    },
-    "146": {
-        "name": "Bandit Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "24": {
-        "name": "Blackduck Component Risk",
-        "type": "SCA"
-    },
-    "123": {
-        "name": "Blackduck Hub Scan",
-        "type": "SCA"
-    },
-    "116": {
-        "name": "Brakeman Scan",
-        "type": "Code SAST"
-    },
-    "157": {
-        "name": "Brakeman Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "39": {
-        "name": "BugCrowd Scan",
-        "type": "DAST"
-    },
-    "72": {
-        "name": "Bundler-Audit Scan",
-        "type": "SCA"
-    },
-    "27": {
-        "name": "Burp Enterprise Scan",
-        "type": "DAST"
-    },
-    "8": {
-        "name": "Burp GraphQL API",
-        "type": "DAST"
-    },
-    "18": {
-        "name": "Burp REST API",
-        "type": "DAST"
-    },
-    "15": {
-        "name": "Burp Scan",
-        "type": "DAST"
-    },
-    "31": {
-        "name": "CargoAudit Scan",
-        "type": "SCA"
-    },
-    "137": {
-        "name": "Checkmarx OSA",
-        "type": "SCA"
-    },
-    "92": {
-        "name": "Checkmarx Scan",
-        "type": "Code SAST"
-    },
-    "93": {
-        "name": "Checkmarx Scan detailed",
-        "type": "Code SAST"
-    },
-    "111": {
-        "name": "Checkov Scan",
-        "type": "IaC SAST"
-    },
-    "57": {
-        "name": "Clair Klar Scan",
-        "type": "DAST"
-    },
-    "56": {
-        "name": "Clair Scan",
-        "type": "SCA"
-    },
-    "109": {
-        "name": "Cloudsploit Scan",
-        "type": "IaC SAST"
-    },
-    "37": {
-        "name": "Cobalt.io API Import",
-        "type": "DAST"
-    },
-    "88": {
-        "name": "Cobalt.io Scan",
-        "type": "DAST"
-    },
-    "82": {
-        "name": "Contrast Scan",
-        "type": "Code SAST"
-    },
-    "51": {
-        "name": "Coverity API",
-        "type": "Code SAST"
-    },
-    "113": {
-        "name": "Crashtest Security JSON File",
-        "type": "DAST"
-    },
-    "114": {
-        "name": "Crashtest Security XML File",
-        "type": "DAST"
-    },
-    "79": {
-        "name": "CredScan Scan",
-        "type": "secrets"
-    },
-    "11": {
-        "name": "CycloneDX Scan",
-        "type": "SCA"
-    },
-    "133": {
-        "name": "DawnScanner Scan",
-        "type": "Code SAST"
-    },
-    "103": {
-        "name": "Dependency Check Scan",
-        "type": "SCA"
-    },
-    "75": {
-        "name": "Dependency Track Finding Packaging Format (FPF) Export",
-        "type": "SCA"
-    },
-    "94": {
-        "name": "Detect-secrets Scan",
-        "type": "secrets"
-    },
-    "71": {
-        "name": "Dockle Scan",
-        "type": "IaC SAST"
-    },
-    "78": {
-        "name": "DrHeader JSON Importer",
-        "type": "DAST"
-    },
-    "134": {
-        "name": "DSOP Scan",
-        "type": "other"
-    },
-    "100": {
-        "name": "Edgescan Scan",
-        "type": "DAST"
-    },
-    "105": {
-        "name": "ESLint Scan",
-        "type": "Code Quality"
-    },
-    "147": {
-        "name": "ESLint Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "150": {
-        "name": "Find Security Bugs Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "154": {
-        "name": "Flawfinder Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "86": {
-        "name": "Fortify Scan",
-        "type": "Code SAST"
-    },
-    "67": {
-        "name": "Generic Findings Import",
-        "type": "SCA"
-    },
-    "135": {
-        "name": "Github Vulnerability Scan",
-        "type": "SCA"
-    },
-    "84": {
-        "name": "GitLab API Fuzzing Report Scan",
-        "type": "DAST"
-    },
-    "63": {
-        "name": "GitLab Container Scan",
-        "type": "DAST"
-    },
-    "112": {
-        "name": "GitLab DAST Report",
-        "type": "DAST"
-    },
-    "61": {
-        "name": "GitLab Dependency Scanning Report",
-        "type": "SCA"
-    },
-    "85": {
-        "name": "GitLab SAST Report",
-        "type": "Code SAST"
-    },
-    "91": {
-        "name": "GitLab Secret Detection Report",
-        "type": "secrets"
-    },
-    "130": {
-        "name": "Gitleaks Scan",
-        "type": "secrets"
-    },
-    "158": {
-        "name": "Gosec Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "141": {
-        "name": "Gosec Scanner",
-        "type": "Code SAST"
-    },
-    "139": {
-        "name": "HackerOne Cases",
-        "type": "DAST"
-    },
-    "65": {
-        "name": "Hadolint Dockerfile check",
-        "type": "IaC SAST"
-    },
-    "131": {
-        "name": "Harbor Vulnerability Scan",
-        "type": "DAST"
-    },
-    "48": {
-        "name": "Horusec Scan",
-        "type": "secrets"
-    },
-    "108": {
-        "name": "HuskyCI Report",
-        "type": "Code SAST"
-    },
-    "96": {
-        "name": "IBM AppScan DAST",
-        "type": "DAST"
-    },
-    "121": {
-        "name": "Immuniweb Scan",
-        "type": "SCA"
-    },
-    "77": {
-        "name": "IntSights Report",
-        "type": "secrets"
-    },
-    "104": {
-        "name": "JFrog Xray Scan",
-        "type": "SCA"
-    },
-    "73": {
-        "name": "JFrog Xray Unified Scan",
-        "type": "SCA"
-    },
-    "126": {
-        "name": "KICS Scan",
-        "type": "IaC SAST"
-    },
-    "147": {
-        "name": "kics Scan (GitLab SAST Report)",
-        "type": "IaC SAST"
-    },
-    "29": {
-        "name": "Kiuwan Scan",
-        "type": "Code SAST"
-    },
-    "129": {
-        "name": "kube-bench Scan",
-        "type": "IaC SAST"
-    },
-    "7": {
-        "name": "Manual Code Review",
-        "type": "Code SAST"
-    },
-    "21": {
-        "name": "Meterian Scan",
-        "type": "SCA"
-    },
-    "98": {
-        "name": "Microfocus Webinspect Scan",
-        "type": "DAST"
-    },
-    "12": {
-        "name": "MobSF Scan",
-        "type": "Code SAST"
-    },
-    "106": {
-        "name": "Mobsfscan Scan",
-        "type": "Code SAST"
-    },
-    "87": {
-        "name": "Mozilla Observatory Scan",
-        "type": "DAST"
-    },
-    "142": {
-        "name": "Nessus Scan",
-        "type": "DAST"
-    },
-    "19": {
-        "name": "Nessus WAS Scan",
-        "type": "DAST"
-    },
-    "66": {
-        "name": "Netsparker Scan",
-        "type": "DAST"
-    },
-    "32": {
-        "name": "Nexpose Scan",
-        "type": "DAST"
-    },
-    "125": {
-        "name": "Nikto Scan",
-        "type": "DAST"
-    },
-    "152": {
-        "name": "njsscan Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "22": {
-        "name": "Nmap Scan",
-        "type": "DAST"
-    },
-    "9": {
-        "name": "Node Security Platform Scan",
-        "type": "SCA"
-    },
-    "68": {
-        "name": "NPM Audit Scan",
-        "type": "SCA"
-    },
-    "50": {
-        "name": "Nuclei Scan",
-        "type": "DAST"
-    },
-    "64": {
-        "name": "Openscap Vulnerability Scan",
-        "type": "DAST"
-    },
-    "44": {
-        "name": "OpenVAS CSV",
-        "type": "DAST"
-    },
-    "90": {
-        "name": "ORT evaluated model Importer",
-        "type": "IaC SAST"
-    },
-    "38": {
-        "name": "OssIndex Devaudit SCA Scan Importer",
-        "type": "SCA"
-    },
-    "36": {
-        "name": "Outpost24 Scan",
-        "type": "DAST"
-    },
-    "3": {
-        "name": "Pen Test",
-        "type": "DAST"
-    },
-    "153": {
-        "name": "phpcs-security-audit v2 Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "115": {
-        "name": "PHP Security Audit v2",
-        "type": "Code SAST"
-    },
-    "132": {
-        "name": "PHP Symfony Security Check",
-        "type": "Code SAST"
-    },
-    "59": {
-        "name": "pip-audit Scan",
-        "type": "SCA"
-    },
-    "122": {
-        "name": "PMD Scan",
-        "type": "Code SAST"
-    },
-    "70": {
-        "name": "Qualys Infrastructure Scan (WebGUI XML)",
-        "type": "DAST"
-    },
-    "119": {
-        "name": "Qualys Scan",
-        "type": "DAST"
-    },
-    "60": {
-        "name": "Qualys Webapp Scan",
-        "type": "DAST"
-    },
-    "30": {
-        "name": "Retire.js Scan",
-        "type": "SCA"
-    },
-    "99": {
-        "name": "Risk Recon API Importer",
-        "type": "secrets"
-    },
-    "35": {
-        "name": "Rubocop Scan",
-        "type": "other"
-    },
-    "23": {
-        "name": "Rusty Hog Scan",
-        "type": "secrets"
-    },
-    "74": {
-        "name": "SARIF",
-        "type": "secrets"
-    },
-    "16": {
-        "name": "Scantist Scan",
-        "type": "SCA"
-    },
-    "117": {
-        "name": "Scout Suite Scan",
-        "type": "IaC SAST"
-    },
-    "151": {
-        "name": "Security Code Scan Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "5": {
-        "name": "Security Research",
-        "type": "secrets"
-    },
-    "54": {
-        "name": "Semgrep JSON Report",
-        "type": "Code SAST"
-    },
-    "148": {
-        "name": "Semgrep Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "42": {
-        "name": "SKF Scan",
-        "type": "Code SAST"
-    },
-    "20": {
-        "name": "Snyk Scan",
-        "type": "secrets"
-    },
-    "127": {
-        "name": "Solar Appscreener Scan",
-        "type": "Code SAST"
-    },
-    "43": {
-        "name": "SonarQube API Import",
-        "type": "Code SAST"
-    },
-    "144": {
-        "name": "SonarQube Scan",
-        "type": "Code SAST"
-    },
-    "145": {
-        "name": "SonarQube Scan detailed",
-        "type": "Code SAST"
-    },
-    "140": {
-        "name": "Sonatype Application Scan",
-        "type": "SCA"
-    },
-    "58": {
-        "name": "SpotBugs Scan",
-        "type": "Code SAST"
-    },
-    "45": {
-        "name": "SSL Labs Scan",
-        "type": "DAST"
-    },
-    "41": {
-        "name": "Sslscan",
-        "type": "DAST"
-    },
-    "102": {
-        "name": "Sslyze Scan",
-        "type": "DAST"
-    },
-    "101": {
-        "name": "SSLyze Scan (JSON)",
-        "type": "DAST"
-    },
-    "95": {
-        "name": "StackHawk HawkScan",
-        "type": "DAST"
-    },
-    "2": {
-        "name": "Static Check",
-        "type": "Code SAST"
-    },
-    "159": {
-        "name": "string",
-        "type": "other"
-    },
-    "76": {
-        "name": "Terrascan Scan",
-        "type": "IaC SAST"
-    },
-    "107": {
-        "name": "Testssl Scan",
-        "type": "DAST"
-    },
-    "26": {
-        "name": "TFSec Scan",
-        "type": "IaC SAST"
-    },
-    "6": {
-        "name": "Threat Modeling",
-        "type": "secrets"
-    },
-    "10": {
-        "name": "Trivy Scan",
-        "type": "SCA"
-    },
-    "34": {
-        "name": "Trufflehog3 Scan",
-        "type": "secrets"
-    },
-    "83": {
-        "name": "Trufflehog Scan",
-        "type": "secrets"
-    },
-    "55": {
-        "name": "Trustwave Fusion API Scan",
-        "type": "DAST"
-    },
-    "14": {
-        "name": "Trustwave Scan (CSV)",
-        "type": "DAST"
-    },
-    "89": {
-        "name": "Twistlock Image Scan",
-        "type": "IaC SAST"
-    },
-    "156": {
-        "name": "Ungyo Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "155": {
-        "name": "ungyo v0 Scan (GitLab SAST Report)",
-        "type": "Code SAST"
-    },
-    "110": {
-        "name": "VCG Scan",
-        "type": "other"
-    },
-    "46": {
-        "name": "Veracode Scan",
-        "type": "Code SAST"
-    },
-    "62": {
-        "name": "Wapiti Scan",
-        "type": "DAST"
-    },
-    "4": {
-        "name": "Web Application Test",
-        "type": "DAST"
-    },
-    "28": {
-        "name": "WFuzz JSON report",
-        "type": "DAST"
-    },
-    "17": {
-        "name": "WhiteHat Sentinel",
-        "type": "DAST"
-    },
-    "33": {
-        "name": "Whitesource Scan",
-        "type": "SCA"
-    },
-    "80": {
-        "name": "Wpscan",
-        "type": "DAST"
-    },
-    "25": {
-        "name": "Xanitizer Scan",
-        "type": "Code SAST"
-    },
-    "97": {
-        "name": "Yarn Audit Scan",
-        "type": "SCA"
-    },
-    "13": {
-        "name": "ZAP Scan",
-        "type": "DAST"
-    },
-    "149": {
-        "name": "Inspect AI",
-        "type": "Code SAST"
-    },    
-    "156": {
-        "name": "CodeFixAI Scan",
-        "type": "Code SAST"
-    }
+  "106": {
+    "name": "Acunetix360 Scan",
+    "type": "DAST"
+  },
+  "118": {
+    "name": "Acunetix Scan",
+    "type": "DAST"
+  },
+  "74": {
+    "name": "Anchore Engine Scan",
+    "type": "SCA"
+  },
+  "26": {
+    "name": "Anchore Enterprise Policy Check",
+    "type": "SCA"
+  },
+  "84": {
+    "name": "Anchore Grype",
+    "type": "SCA"
+  },
+  "1": {
+    "name": "API Test",
+    "type": "DAST"
+  },
+  "27": {
+    "name": "AppSpider Scan",
+    "type": "DAST"
+  },
+  "101": {
+    "name": "Aqua Scan",
+    "type": "IaC SAST"
+  },
+  "119": {
+    "name": "Arachni Scan",
+    "type": "DAST"
+  },
+  "62": {
+    "name": "AuditJS Scan",
+    "type": "SCA"
+  },
+  "95": {
+    "name": "AWS Prowler Scan",
+    "type": "IaC SAST"
+  },
+  "102": {
+    "name": "AWS Scout2 Scan",
+    "type": "IaC SAST"
+  },
+  "63": {
+    "name": "AWS Security Hub Scan",
+    "type": "IaC SAST"
+  },
+  "33": {
+    "name": "Azure Security Center Recommendations Scan",
+    "type": "IaC SAST"
+  },
+  "53": {
+    "name": "Bandit Scan",
+    "type": "Code SAST"
+  },
+  "146": {
+    "name": "Bandit Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "82": {
+    "name": "Blackduck Component Risk",
+    "type": "SCA"
+  },
+  "60": {
+    "name": "Blackduck Hub Scan",
+    "type": "SCA"
+  },
+  "103": {
+    "name": "Brakeman Scan",
+    "type": "Code SAST"
+  },
+  "157": {
+    "name": "Brakeman Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "91": {
+    "name": "BugCrowd Scan",
+    "type": "DAST"
+  },
+  "111": {
+    "name": "Bundler-Audit Scan",
+    "type": "SCA"
+  },
+  "40": {
+    "name": "Burp Enterprise Scan",
+    "type": "DAST"
+  },
+  "124": {
+    "name": "Burp GraphQL API",
+    "type": "DAST"
+  },
+  "144": {
+    "name": "Burp REST API",
+    "type": "DAST"
+  },
+  "134": {
+    "name": "Burp Scan",
+    "type": "DAST"
+  },
+  "28": {
+    "name": "CargoAudit Scan",
+    "type": "SCA"
+  },
+  "16": {
+    "name": "Checkmarx OSA",
+    "type": "SCA"
+  },
+  "114": {
+    "name": "Checkmarx Scan",
+    "type": "Code SAST"
+  },
+  "115": {
+    "name": "Checkmarx Scan detailed",
+    "type": "Code SAST"
+  },
+  "90": {
+    "name": "Checkov Scan",
+    "type": "IaC SAST"
+  },
+  "31": {
+    "name": "Clair Klar Scan",
+    "type": "DAST"
+  },
+  "58": {
+    "name": "Clair Scan",
+    "type": "SCA"
+  },
+  "64": {
+    "name": "Cloudsploit Scan",
+    "type": "IaC SAST"
+  },
+  "113": {
+    "name": "Cobalt.io API Import",
+    "type": "DAST"
+  },
+  "67": {
+    "name": "Cobalt.io Scan",
+    "type": "DAST"
+  },
+  "81": {
+    "name": "Contrast Scan",
+    "type": "Code SAST"
+  },
+  "92": {
+    "name": "Coverity API",
+    "type": "Code SAST"
+  },
+  "18": {
+    "name": "Crashtest Security JSON File",
+    "type": "DAST"
+  },
+  "19": {
+    "name": "Crashtest Security XML File",
+    "type": "DAST"
+  },
+  "86": {
+    "name": "CredScan Scan",
+    "type": "secrets"
+  },
+  "133": {
+    "name": "CycloneDX Scan",
+    "type": "SCA"
+  },
+  "11": {
+    "name": "DawnScanner Scan",
+    "type": "Code SAST"
+  },
+  "35": {
+    "name": "Dependency Check Scan",
+    "type": "SCA"
+  },
+  "127": {
+    "name": "Dependency Track Finding Packaging Format (FPF) Export",
+    "type": "SCA"
+  },
+  "132": {
+    "name": "Detect-secrets Scan",
+    "type": "secrets"
+  },
+  "45": {
+    "name": "Dockle Scan",
+    "type": "IaC SAST"
+  },
+  "23": {
+    "name": "DrHeader JSON Importer",
+    "type": "DAST"
+  },
+  "98": {
+    "name": "DSOP Scan",
+    "type": "other"
+  },
+  "47": {
+    "name": "Edgescan Scan",
+    "type": "DAST"
+  },
+  "140": {
+    "name": "ESLint Scan",
+    "type": "Code Quality"
+  },
+  "147": {
+    "name": "kics Scan (GitLab SAST Report)",
+    "type": "IaC SAST"
+  },
+  "150": {
+    "name": "Find Security Bugs Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "154": {
+    "name": "Flawfinder Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "54": {
+    "name": "Fortify Scan",
+    "type": "Code SAST"
+  },
+  "130": {
+    "name": "Generic Findings Import",
+    "type": "SCA"
+  },
+  "99": {
+    "name": "Github Vulnerability Scan",
+    "type": "SCA"
+  },
+  "123": {
+    "name": "GitLab API Fuzzing Report Scan",
+    "type": "DAST"
+  },
+  "104": {
+    "name": "GitLab Container Scan",
+    "type": "DAST"
+  },
+  "21": {
+    "name": "GitLab DAST Report",
+    "type": "DAST"
+  },
+  "56": {
+    "name": "GitLab Dependency Scanning Report",
+    "type": "SCA"
+  },
+  "120": {
+    "name": "GitLab SAST Report",
+    "type": "Code SAST"
+  },
+  "110": {
+    "name": "GitLab Secret Detection Report",
+    "type": "secrets"
+  },
+  "121": {
+    "name": "Gitleaks Scan",
+    "type": "secrets"
+  },
+  "158": {
+    "name": "Gosec Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "52": {
+    "name": "Gosec Scanner",
+    "type": "Code SAST"
+  },
+  "22": {
+    "name": "HackerOne Cases",
+    "type": "DAST"
+  },
+  "12": {
+    "name": "Hadolint Dockerfile check",
+    "type": "IaC SAST"
+  },
+  "46": {
+    "name": "Harbor Vulnerability Scan",
+    "type": "DAST"
+  },
+  "34": {
+    "name": "Horusec Scan",
+    "type": "secrets"
+  },
+  "109": {
+    "name": "HuskyCI Report",
+    "type": "Code SAST"
+  },
+  "141": {
+    "name": "IBM AppScan DAST",
+    "type": "DAST"
+  },
+  "89": {
+    "name": "Immuniweb Scan",
+    "type": "SCA"
+  },
+  "137": {
+    "name": "IntSights Report",
+    "type": "secrets"
+  },
+  "126": {
+    "name": "JFrog Xray Scan",
+    "type": "SCA"
+  },
+  "41": {
+    "name": "JFrog Xray Unified Scan",
+    "type": "SCA"
+  },
+  "15": {
+    "name": "KICS Scan",
+    "type": "IaC SAST"
+  },
+  "77": {
+    "name": "Kiuwan Scan",
+    "type": "Code SAST"
+  },
+  "51": {
+    "name": "kube-bench Scan",
+    "type": "IaC SAST"
+  },
+  "7": {
+    "name": "Manual Code Review",
+    "type": "Code SAST"
+  },
+  "8": {
+    "name": "Meterian Scan",
+    "type": "SCA"
+  },
+  "75": {
+    "name": "Microfocus Webinspect Scan",
+    "type": "DAST"
+  },
+  "117": {
+    "name": "MobSF Scan",
+    "type": "Code SAST"
+  },
+  "135": {
+    "name": "Mobsfscan Scan",
+    "type": "Code SAST"
+  },
+  "80": {
+    "name": "Mozilla Observatory Scan",
+    "type": "DAST"
+  },
+  "13": {
+    "name": "Nessus Scan",
+    "type": "DAST"
+  },
+  "143": {
+    "name": "Nessus WAS Scan",
+    "type": "DAST"
+  },
+  "66": {
+    "name": "Netsparker Scan",
+    "type": "DAST"
+  },
+  "43": {
+    "name": "Nexpose Scan",
+    "type": "DAST"
+  },
+  "96": {
+    "name": "Nikto Scan",
+    "type": "DAST"
+  },
+  "152": {
+    "name": "njsscan Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "55": {
+    "name": "Nmap Scan",
+    "type": "DAST"
+  },
+  "97": {
+    "name": "Node Security Platform Scan",
+    "type": "SCA"
+  },
+  "85": {
+    "name": "NPM Audit Scan",
+    "type": "SCA"
+  },
+  "25": {
+    "name": "Nuclei Scan",
+    "type": "DAST"
+  },
+  "68": {
+    "name": "Openscap Vulnerability Scan",
+    "type": "DAST"
+  },
+  "14": {
+    "name": "OpenVAS CSV",
+    "type": "DAST"
+  },
+  "17": {
+    "name": "ORT evaluated model Importer",
+    "type": "IaC SAST"
+  },
+  "49": {
+    "name": "OssIndex Devaudit SCA Scan Importer",
+    "type": "SCA"
+  },
+  "108": {
+    "name": "Outpost24 Scan",
+    "type": "DAST"
+  },
+  "3": {
+    "name": "Pen Test",
+    "type": "DAST"
+  },
+  "153": {
+    "name": "phpcs-security-audit v2 Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "79": {
+    "name": "PHP Security Audit v2",
+    "type": "Code SAST"
+  },
+  "38": {
+    "name": "PHP Symfony Security Check",
+    "type": "Code SAST"
+  },
+  "50": {
+    "name": "pip-audit Scan",
+    "type": "SCA"
+  },
+  "83": {
+    "name": "PMD Scan",
+    "type": "Code SAST"
+  },
+  "36": {
+    "name": "Qualys Infrastructure Scan (WebGUI XML)",
+    "type": "DAST"
+  },
+  "125": {
+    "name": "Qualys Scan",
+    "type": "DAST"
+  },
+  "145": {
+    "name": "Qualys Webapp Scan",
+    "type": "DAST"
+  },
+  "39": {
+    "name": "Retire.js Scan",
+    "type": "SCA"
+  },
+  "32": {
+    "name": "Risk Recon API Importer",
+    "type": "secrets"
+  },
+  "112": {
+    "name": "Rubocop Scan",
+    "type": "other"
+  },
+  "136": {
+    "name": "Rusty Hog Scan",
+    "type": "secrets"
+  },
+  "76": {
+    "name": "SARIF",
+    "type": "secrets"
+  },
+  "88": {
+    "name": "Scantist Scan",
+    "type": "SCA"
+  },
+  "142": {
+    "name": "Scout Suite Scan",
+    "type": "IaC SAST"
+  },
+  "151": {
+    "name": "Security Code Scan Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "5": {
+    "name": "Security Research",
+    "type": "secrets"
+  },
+  "24": {
+    "name": "Semgrep JSON Report",
+    "type": "Code SAST"
+  },
+  "148": {
+    "name": "Semgrep Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "100": {
+    "name": "SKF Scan",
+    "type": "Code SAST"
+  },
+  "48": {
+    "name": "Snyk Scan",
+    "type": "secrets"
+  },
+  "30": {
+    "name": "Solar Appscreener Scan",
+    "type": "Code SAST"
+  },
+  "37": {
+    "name": "SonarQube API Import",
+    "type": "Code SAST"
+  },
+  "138": {
+    "name": "SonarQube Scan",
+    "type": "Code SAST"
+  },
+  "139": {
+    "name": "SonarQube Scan detailed",
+    "type": "Code SAST"
+  },
+  "10": {
+    "name": "Sonatype Application Scan",
+    "type": "SCA"
+  },
+  "69": {
+    "name": "SpotBugs Scan",
+    "type": "Code SAST"
+  },
+  "129": {
+    "name": "SSL Labs Scan",
+    "type": "DAST"
+  },
+  "65": {
+    "name": "Sslscan",
+    "type": "DAST"
+  },
+  "73": {
+    "name": "Sslyze Scan",
+    "type": "DAST"
+  },
+  "72": {
+    "name": "SSLyze Scan (JSON)",
+    "type": "DAST"
+  },
+  "44": {
+    "name": "StackHawk HawkScan",
+    "type": "DAST"
+  },
+  "2": {
+    "name": "Static Check",
+    "type": "Code SAST"
+  },
+  "159": {
+    "name": "string",
+    "type": "other"
+  },
+  "93": {
+    "name": "Terrascan Scan",
+    "type": "IaC SAST"
+  },
+  "122": {
+    "name": "Testssl Scan",
+    "type": "DAST"
+  },
+  "131": {
+    "name": "TFSec Scan",
+    "type": "IaC SAST"
+  },
+  "6": {
+    "name": "Threat Modeling",
+    "type": "secrets"
+  },
+  "57": {
+    "name": "Trivy Scan",
+    "type": "SCA"
+  },
+  "70": {
+    "name": "Trufflehog3 Scan",
+    "type": "secrets"
+  },
+  "94": {
+    "name": "Trufflehog Scan",
+    "type": "secrets"
+  },
+  "29": {
+    "name": "Trustwave Fusion API Scan",
+    "type": "DAST"
+  },
+  "87": {
+    "name": "Trustwave Scan (CSV)",
+    "type": "DAST"
+  },
+  "42": {
+    "name": "Twistlock Image Scan",
+    "type": "IaC SAST"
+  },
+  "156": {
+    "name": "CodeFixAI Scan",
+    "type": "Code SAST"
+  },
+  "155": {
+    "name": "ungyo v0 Scan (GitLab SAST Report)",
+    "type": "Code SAST"
+  },
+  "78": {
+    "name": "VCG Scan",
+    "type": "other"
+  },
+  "105": {
+    "name": "Veracode Scan",
+    "type": "Code SAST"
+  },
+  "128": {
+    "name": "Wapiti Scan",
+    "type": "DAST"
+  },
+  "4": {
+    "name": "Web Application Test",
+    "type": "DAST"
+  },
+  "107": {
+    "name": "WFuzz JSON report",
+    "type": "DAST"
+  },
+  "59": {
+    "name": "WhiteHat Sentinel",
+    "type": "DAST"
+  },
+  "116": {
+    "name": "Whitesource Scan",
+    "type": "SCA"
+  },
+  "71": {
+    "name": "Wpscan",
+    "type": "DAST"
+  },
+  "20": {
+    "name": "Xanitizer Scan",
+    "type": "Code SAST"
+  },
+  "61": {
+    "name": "Yarn Audit Scan",
+    "type": "SCA"
+  },
+  "9": {
+    "name": "ZAP Scan",
+    "type": "DAST"
+  },
+  "149": {
+    "name": "Inspect AI",
+    "type": "Code SAST"
+  }
 }
